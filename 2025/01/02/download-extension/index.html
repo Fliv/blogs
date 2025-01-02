@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>使用 ChatGPT 从深度理解 Blob 原理到开发 Chrome 插件的全流程 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="在现代 web 开发中，Blob（Binary Large Object） 是一个重要的概念，广泛应用于处理二进制数据，如图像、视频等。本文将分享我如何利用 ChatGPT，从初步了解 Blob 的原理，到最终生成一个用于下载视频的 Chrome 插件的完整过程。希望能为正在进行类似项目的开发者提供一些参考和启发。 目录 引言 初探 Blob API 利用 ChatGPT 深入理解 Blob 从">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 ChatGPT 从深度理解 Blob 原理到开发 Chrome 插件的全流程">
+<meta property="og:url" content="http://example.com/2025/01/02/download-extension/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="在现代 web 开发中，Blob（Binary Large Object） 是一个重要的概念，广泛应用于处理二进制数据，如图像、视频等。本文将分享我如何利用 ChatGPT，从初步了解 Blob 的原理，到最终生成一个用于下载视频的 Chrome 插件的完整过程。希望能为正在进行类似项目的开发者提供一些参考和启发。 目录 引言 初探 Blob API 利用 ChatGPT 深入理解 Blob 从">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-01-02T05:50:24.000Z">
+<meta property="article:modified_time" content="2025-01-02T06:09:20.243Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Web开发">
+<meta property="article:tag" content="Chrome插件">
+<meta property="article:tag" content="前端技术">
+<meta property="article:tag" content="javascript">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-download-extension" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/01/02/download-extension/" class="article-date">
+  <time class="dt-published" datetime="2025-01-02T05:50:24.000Z" itemprop="datePublished">2025-01-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      使用 ChatGPT 从深度理解 Blob 原理到开发 Chrome 插件的全流程
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>在现代 web 开发中，<strong>Blob（Binary Large Object）</strong> 是一个重要的概念，广泛应用于处理二进制数据，如图像、视频等。本文将分享我如何利用 ChatGPT，从初步了解 Blob 的原理，到最终生成一个用于下载视频的 Chrome 插件的完整过程。希望能为正在进行类似项目的开发者提供一些参考和启发。</p>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ol>
+<li><a href="#%E5%BC%95%E8%A8%80">引言</a></li>
+<li><a href="#%E5%88%9D%E6%8E%A2-Blob-API">初探 Blob API</a></li>
+<li><a href="#%E5%88%A9%E7%94%A8-chatgpt-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3-blob">利用 ChatGPT 深入理解 Blob</a></li>
+<li><a href="#%E4%BB%8E-blob-%E5%88%B0-chrome-%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91">从 Blob 到 Chrome 插件开发</a></li>
+<li><a href="#%E5%AE%9E%E7%8E%B0-chrome-%E6%8F%92%E4%BB%B6">实现 Chrome 插件</a><ul>
+<li><a href="#%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90">需求分析</a></li>
+<li><a href="#%E7%BC%96%E5%86%99%E5%86%85%E5%AE%B9%E8%84%9A%E6%9C%AC">编写内容脚本</a></li>
+<li><a href="#%E4%BF%AE%E6%94%B9-blob-%E7%9B%B8%E5%85%B3%E6%96%B9%E6%B3%95">修改 Blob 相关方法</a></li>
+<li><a href="#%E7%AE%A1%E7%90%86%E8%A7%86%E9%A2%91%E6%95%B0%E6%8D%AE">管理视频数据</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AE-manifestjson">配置 <code>manifest.json</code></a></li>
+<li><a href="#%E6%B5%8B%E8%AF%95%E6%8F%92%E4%BB%B6">测试插件</a></li>
+</ul>
+</li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
+</ol>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>故事要从一个朋友问我的问题说起，买的网课要到期了来不及看完，手机录屏录不了有没有什么办法可以把视频都录下来。我说，有网页版吗，打开QQ录屏就行了，试了一下确实可以，It works! 不过，对于专业人士来说，不够优雅，于是我打算让chatgpt老师帮我解决这个问题，从询问原理开始，最终达成了用chatgpt写出了一个自动下载视频的Chrome插件。</p>
+<h2 id="初探-Blob-API"><a href="#初探-Blob-API" class="headerlink" title="初探 Blob API"></a>初探 Blob API</h2><p><strong>Blob</strong>（Binary Large Object）是用于存储二进制数据的对象，常用于处理文件数据、图像、视频等。在浏览器中，Blob 常与 <strong>URL.createObjectURL</strong> 方法配合使用，将二进制数据转换为 URL，从而在页面上展示或下载。</p>
+<p>基本使用示例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建一个 Blob 对象</span></span><br><span class="line"><span class="keyword">const</span> blob = <span class="keyword">new</span> <span class="title class_">Blob</span>([<span class="string">&quot;Hello, world!&quot;</span>], &#123; <span class="attr">type</span>: <span class="string">&quot;text/plain&quot;</span> &#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生成一个 Blob URL</span></span><br><span class="line"><span class="keyword">const</span> url = <span class="variable constant_">URL</span>.<span class="title function_">createObjectURL</span>(blob);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在页面中使用 Blob URL</span></span><br><span class="line"><span class="keyword">const</span> link = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&#x27;a&#x27;</span>);</span><br><span class="line">link.<span class="property">href</span> = url;</span><br><span class="line">link.<span class="property">download</span> = <span class="string">&#x27;hello.txt&#x27;</span>;</span><br><span class="line">link.<span class="property">textContent</span> = <span class="string">&#x27;Download Hello.txt&#x27;</span>;</span><br><span class="line"><span class="variable language_">document</span>.<span class="property">body</span>.<span class="title function_">appendChild</span>(link);</span><br></pre></td></tr></table></figure>
+
+<p>通过上述方法，可以在不上传服务器的情况下，生成可供下载的文件链接。</p>
+<h2 id="利用-ChatGPT-深入理解-Blob"><a href="#利用-ChatGPT-深入理解-Blob" class="headerlink" title="利用 ChatGPT 深入理解 Blob"></a>利用 ChatGPT 深入理解 Blob</h2><p>在决定开发 Chrome 插件之前，我需要深入理解 Blob 的工作原理以及如何在网页中拦截和操作 Blob URL。这时，我利用了 ChatGPT 的强大语言理解和代码生成能力。</p>
+<h3 id="询问-Blob-原理"><a href="#询问-Blob-原理" class="headerlink" title="询问 Blob 原理"></a>询问 Blob 原理</h3><p>首先，我向 ChatGPT 提出了关于 Blob 原理的问题：</p>
+<p><strong>问题</strong>：什么是 Blob？它在浏览器中的作用是什么？</p>
+<p><strong>ChatGPT 的回答</strong>：Blob（Binary Large Object）是一种用于存储二进制数据的对象，常用于处理文件、图像、视频等。在浏览器中，Blob 主要用于以下几个方面：</p>
+<ul>
+<li><strong>文件上传和下载</strong>：通过 Blob 可以生成可供下载的文件链接。</li>
+<li><strong>图像和视频处理</strong>：使用 Blob 存储和操作媒体数据。</li>
+<li><strong>数据传输</strong>：在客户端和服务器之间传输二进制数据时，Blob 起到中间媒介的作用。</li>
+</ul>
+<p>ChatGPT 的详细解释帮助我全面掌握了 Blob 的基本概念和应用场景，为后续的插件开发奠定了坚实的理论基础。</p>
+<h3 id="生成代码示例"><a href="#生成代码示例" class="headerlink" title="生成代码示例"></a>生成代码示例</h3><p>接下来，我需要在实际项目中操作 Blob。因此，我向 ChatGPT 请求生成相关的代码示例：</p>
+<p><strong>问题</strong>：如何在网页中拦截 Blob URL 并下载对应的视频文件？</p>
+<p><strong>ChatGPT 的回答</strong>：</p>
+<p>要拦截 Blob URL 并下载对应的视频文件，可以通过重写 <code>URL.createObjectURL</code> 方法，并监听视频元素的相关事件。以下是一个基本的实现示例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">(<span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// 保存原始的 createObjectURL 方法</span></span><br><span class="line">    <span class="keyword">const</span> originalCreateObjectURL = <span class="variable constant_">URL</span>.<span class="property">createObjectURL</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 重写 createObjectURL 方法</span></span><br><span class="line">    <span class="variable constant_">URL</span>.<span class="property">createObjectURL</span> = <span class="keyword">function</span>(<span class="params">blob</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> blobUrl = originalCreateObjectURL.<span class="title function_">call</span>(<span class="variable language_">this</span>, blob);</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Blob URL created:&#x27;</span>, blobUrl);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 检查 Blob 的类型是否为视频</span></span><br><span class="line">        <span class="keyword">if</span> (blob.<span class="property">type</span>.<span class="title function_">startsWith</span>(<span class="string">&#x27;video/&#x27;</span>)) &#123;</span><br><span class="line">            <span class="comment">// 创建一个下载链接</span></span><br><span class="line">            <span class="keyword">const</span> link = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&#x27;a&#x27;</span>);</span><br><span class="line">            link.<span class="property">href</span> = blobUrl;</span><br><span class="line">            link.<span class="property">download</span> = <span class="string">`video_<span class="subst">$&#123;<span class="built_in">Date</span>.now()&#125;</span>.mp4`</span>;</span><br><span class="line">            link.<span class="title function_">click</span>();</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Video downloaded:&#x27;</span>, link.<span class="property">download</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> blobUrl;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+
+<p>这个代码片段通过重写 <code>URL.createObjectURL</code> 方法，拦截生成的 Blob URL，并在识别到视频类型的 Blob 时，自动创建并点击下载链接，将视频文件保存到本地。</p>
+<p>通过 ChatGPT 生成的代码示例，我对如何操作和拦截 Blob URL 有了更直观的理解，也为后续的插件开发提供了实用的参考。</p>
+<h2 id="从-Blob-到-Chrome-插件开发"><a href="#从-Blob-到-Chrome-插件开发" class="headerlink" title="从 Blob 到 Chrome 插件开发"></a>从 Blob 到 Chrome 插件开发</h2><p>了解了 Blob 的原理和操作方法后，我决定将其应用到 Chrome 插件的开发中。目标是创建一个插件，能够在用户访问包含视频的网页时，自动拦截并下载正在播放的视频。</p>
+<p>具体步骤包括：</p>
+<ol>
+<li><strong>需求分析</strong>：明确插件的功能和工作流程。</li>
+<li><strong>编写内容脚本</strong>：负责在加载网页时注入拦截逻辑。</li>
+<li><strong>修改 Blob 相关方法</strong>：实现拦截和下载功能。</li>
+<li><strong>管理视频数据</strong>：处理被拦截的视频数据并保存。</li>
+<li><strong>配置manifest.json</strong>：定义插件的基本信息和权限。</li>
+<li><strong>测试插件</strong>：确保插件在不同网页和视频环境中正常工作。</li>
+</ol>
+<h2 id="实现-Chrome-插件"><a href="#实现-Chrome-插件" class="headerlink" title="实现 Chrome 插件"></a>实现 Chrome 插件</h2><h3 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h3><p>插件的主要功能是：</p>
+<ul>
+<li><strong>拦截视频加载</strong>：识别并拦截通过 Blob URL 加载的视频资源。</li>
+<li><strong>自动下载视频</strong>：将拦截到的视频数据保存到用户的本地设备。</li>
+<li><strong>用户友好</strong>：提供友好的提示和下载管理功能。</li>
+</ul>
+<h3 id="编写内容脚本"><a href="#编写内容脚本" class="headerlink" title="编写内容脚本"></a>编写内容脚本</h3><p>内容脚本是插件的核心部分，负责在网页加载时注入拦截逻辑。以下是我的 <code>content.js</code> 实现：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> script = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&#x27;script&#x27;</span>);</span><br><span class="line">script.<span class="property">src</span> = chrome.<span class="property">runtime</span>.<span class="title function_">getURL</span>(<span class="string">&#x27;script.js&#x27;</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(script.<span class="property">src</span>);</span><br><span class="line">(<span class="variable language_">document</span>.<span class="property">head</span> || <span class="variable language_">document</span>.<span class="property">documentElement</span>).<span class="title function_">appendChild</span>(script);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 以下是注入的脚本，将在页面上下文中执行</span></span><br></pre></td></tr></table></figure>
+
+<p>这个脚本的作用是动态加载 <code>script.js</code>，将拦截逻辑注入到网页的上下文中。（这里需要解释一下，为什么需要注入脚本，而不是直接在网页中执行，因为chrome插件的执行环境是独立的，直接执行可以操作DOM，但hook JavaScript方法并不会影响网页中的JavaScript执行环境）</p>
+<h3 id="修改-Blob-相关方法"><a href="#修改-Blob-相关方法" class="headerlink" title="修改 Blob 相关方法"></a>修改 Blob 相关方法</h3><p>在 <code>script.js</code> 中，我重写了 <code>URL.createObjectURL</code> 和 <code>URL.revokeObjectURL</code> 方法，以实现对 Blob URL 的拦截和管理。在执行<code>URL.createObjectURL</code>的时候自动创建下载链接，并触发下载。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">(<span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="comment">// 保存原始 alert 方法</span></span><br><span class="line">    <span class="keyword">const</span> originalAlert = <span class="variable language_">window</span>.<span class="property">alert</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 重写 alert 方法</span></span><br><span class="line">    <span class="variable language_">window</span>.<span class="property">alert</span> = <span class="keyword">function</span> (<span class="params">message</span>) &#123;</span><br><span class="line">        <span class="comment">// 自定义逻辑：记录日志</span></span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;[Hooked] alert called with message:&#x27;</span>, message);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 调用原始方法</span></span><br><span class="line">        originalAlert.<span class="title function_">call</span>(<span class="variable language_">window</span>, <span class="string">&#x27;Modified message: &#x27;</span> + message);</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 测试</span></span><br><span class="line">    <span class="comment">// alert(&#x27;This is a test!&#x27;);</span></span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line">(<span class="keyword">function</span> <span class="title function_">hookCreateObjectURL</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// 保存原始的 createObjectURL 方法</span></span><br><span class="line">    <span class="keyword">const</span> originalCreateObjectURL = <span class="variable constant_">URL</span>.<span class="property">createObjectURL</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 自定义的 hook 方法</span></span><br><span class="line">    <span class="variable constant_">URL</span>.<span class="property">createObjectURL</span> = <span class="keyword">function</span> (<span class="params">blob</span>) &#123;</span><br><span class="line">        <span class="comment">// 添加自定义逻辑</span></span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`[Extension Hooked] URL.createObjectURL called with: <span class="subst">$&#123;blob&#125;</span>, type: <span class="subst">$&#123;blob.type&#125;</span>`</span>);</span><br><span class="line"></span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`[Extension Hooked] blob size: <span class="subst">$&#123;blob.size&#125;</span>`</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 调用原始方法</span></span><br><span class="line">        <span class="keyword">const</span> blobUrl = originalCreateObjectURL.<span class="title function_">call</span>(<span class="variable constant_">URL</span>, blob);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 可选：执行其他操作</span></span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`[Extension Hooked] Blob <span class="subst">$&#123;blobUrl&#125;</span> has been created.`</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 只保存视频类型</span></span><br><span class="line">        <span class="keyword">if</span>(blob.<span class="property">type</span> === <span class="string">&#x27;video/mp4&#x27;</span>)&#123;</span><br><span class="line">            <span class="keyword">const</span> link = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&#x27;a&#x27;</span>);</span><br><span class="line">            link.<span class="property">href</span> = blobUrl;</span><br><span class="line">            link.<span class="property">download</span> = <span class="title class_">Date</span>.<span class="title function_">now</span>() + blobUrl + <span class="string">&#x27;saved.mp4&#x27;</span>;</span><br><span class="line">            link.<span class="title function_">click</span>();</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`[Extension Hooked] Blob <span class="subst">$&#123;blobUrl&#125;</span> has been saved.`</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> blobUrl;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;createObjectURL hooked&#x27;</span>);</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+
+<h3 id="获取视频缓存数据"><a href="#获取视频缓存数据" class="headerlink" title="获取视频缓存数据"></a>获取视频缓存数据</h3><p>为了更好地管理视频数据，我在 <code>script.js</code> 中添加了对 <code>SourceBuffer</code> 方法的重写，以便捕获视频分段数据，并在视频加载完成后，合并并下载完整的视频文件。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> sourceBufferMap = <span class="keyword">new</span> <span class="title class_">Map</span>();</span><br><span class="line"></span><br><span class="line">(<span class="keyword">function</span> <span class="title function_">hookAppendBuffer</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// 保存原始的 revokeObjectURL 方法</span></span><br><span class="line">    <span class="keyword">const</span> originalAppendBuffer = <span class="title class_">SourceBuffer</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">appendBuffer</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 自定义的 hook 方法</span></span><br><span class="line">    <span class="title class_">SourceBuffer</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">appendBuffer</span> = <span class="keyword">function</span> (<span class="params">data</span>) &#123;</span><br><span class="line">        <span class="comment">// 添加自定义逻辑</span></span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`[Extension Hooked] SourceBuffer.appendBuffer called with: <span class="subst">$&#123;data&#125;</span>`</span>);</span><br><span class="line">        <span class="keyword">if</span>(sourceBufferMap.<span class="title function_">has</span>(<span class="variable language_">this</span>))&#123;</span><br><span class="line">            <span class="keyword">var</span> mediaSegment = sourceBufferMap.<span class="title function_">get</span>(<span class="variable language_">this</span>);</span><br><span class="line">            mediaSegment.<span class="title function_">push</span>(data);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            sourceBufferMap.<span class="title function_">set</span>(<span class="variable language_">this</span>, []);</span><br><span class="line">            <span class="keyword">var</span> mediaSegment = sourceBufferMap.<span class="title function_">get</span>(<span class="variable language_">this</span>);</span><br><span class="line">            mediaSegment.<span class="title function_">push</span>(data);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 调用原始方法</span></span><br><span class="line">        originalAppendBuffer.<span class="title function_">apply</span>(<span class="variable language_">this</span>, [data]);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 可选：执行其他操作</span></span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`[Extension Hooked] source <span class="subst">$&#123;data&#125;</span> has been appended.`</span>);</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;SourceBuffer.appendBuffer hooked&#x27;</span>);</span><br><span class="line"></span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+
+<p>在视频缓存结束时,我们需要将收集到的视频片段合并并下载。以下是对 <code>endOfStream</code> 方法的 hook 实现:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">(<span class="keyword">function</span> <span class="title function_">hookEndOfStream</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// 保存原始的 revokeObjectURL 方法</span></span><br><span class="line">    <span class="keyword">const</span> originalEndOfStream = <span class="title class_">MediaSource</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">endOfStream</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 自定义的 hook 方法</span></span><br><span class="line">    <span class="title class_">MediaSource</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">endOfStream</span> = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">        <span class="comment">// 添加自定义逻辑</span></span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`[Extension Hooked] MediaSource.endOfStream called`</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//哪个MediaSource的endOfStream触发就下载哪个里面的sourceBuffers</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">const</span> sourceBuffer <span class="keyword">of</span> <span class="variable language_">this</span>.<span class="property">sourceBuffers</span>) &#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;SourceBuffer found:&#x27;</span>, sourceBuffer);</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Buffered ranges:&#x27;</span>, sourceBuffer.<span class="property">buffered</span>);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">const</span> completeVideo = <span class="keyword">new</span> <span class="title class_">Blob</span>(sourceBufferMap.<span class="title function_">get</span>(sourceBuffer), &#123; <span class="attr">type</span>: <span class="string">&#x27;video/mp4&#x27;</span> &#125;);</span><br><span class="line">            <span class="keyword">const</span> url = <span class="variable constant_">URL</span>.<span class="title function_">createObjectURL</span>(completeVideo);</span><br><span class="line">            <span class="variable constant_">URL</span>.<span class="title function_">revokeObjectURL</span>(url);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 调用原始方法</span></span><br><span class="line">        originalEndOfStream.<span class="title function_">apply</span>(<span class="variable language_">this</span>);</span><br><span class="line"></span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;MediaSource.endOfStream hooked&#x27;</span>);</span><br><span class="line"></span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+
+<p>通过这种方式，我们能够捕获视频的每个数据分段，最终合并成完整的视频文件进行下载。</p>
+<h3 id="配置-manifest-json"><a href="#配置-manifest-json" class="headerlink" title="配置 manifest.json"></a>配置 <code>manifest.json</code></h3><p><code>manifest.json</code> 是 Chrome 插件的配置文件，定义了插件的基本信息、权限和脚本等。以下是我的 <code>manifest.json</code> 配置：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;manifest_version&quot;</span><span class="punctuation">:</span> <span class="number">3</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Preload Hook Example&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Hook fetch before page load&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;permissions&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;tabs&quot;</span><span class="punctuation">,</span> <span class="string">&quot;storage&quot;</span><span class="punctuation">,</span> <span class="string">&quot;activeTab&quot;</span><span class="punctuation">,</span> <span class="string">&quot;scripting&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;content_scripts&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">      <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;matches&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;http://*/*&quot;</span><span class="punctuation">,</span> <span class="string">&quot;https://*/*&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;js&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;content.js&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;run_at&quot;</span><span class="punctuation">:</span> <span class="string">&quot;document_start&quot;</span></span><br><span class="line">      <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;web_accessible_resources&quot;</span> <span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;resources&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span> <span class="string">&quot;script.js&quot;</span> <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;matches&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span> <span class="string">&quot;http://*/*&quot;</span><span class="punctuation">,</span> <span class="string">&quot;https://*/*&quot;</span> <span class="punctuation">]</span></span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>在这个配置中：</p>
+<ul>
+<li><strong>permissions</strong>：声明了插件所需的权限，如访问标签页（<code>tabs</code>）、存储（<code>storage</code>）、活动标签页（<code>activeTab</code>）和脚本注入（<code>scripting</code>）。</li>
+<li><strong>content_scripts</strong>：定义了在哪些网页上注入哪些脚本，以及脚本的执行时机（<code>document_start</code> 表示在文档开始加载时执行）。</li>
+<li><strong>web_accessible_resources</strong>：指定了插件可以在网页上下文中访问的资源，这里是 <code>script.js</code>。</li>
+</ul>
+<h3 id="测试插件"><a href="#测试插件" class="headerlink" title="测试插件"></a>测试插件</h3><p>完成上述步骤后，我开始在本地环境中测试插件的功能。具体步骤如下：</p>
+<ol>
+<li><p><strong>加载未打包的插件</strong>：</p>
+<ul>
+<li>打开 Chrome 浏览器，进入 <code>chrome://extensions/</code> 页面。</li>
+<li>打开右上角的“开发者模式”。</li>
+<li>点击“加载已解压的扩展程序”，选择包含 <code>manifest.json</code> 的插件目录。</li>
+</ul>
+</li>
+<li><p><strong>访问包含视频的网页</strong>：</p>
+<ul>
+<li>测试了小红书、B站、YouTube并成功下载视频，其中小红书视频是一整个mp4文件（包含视频流和音频流），B站和YouTube都是一段视频流+一段音频流，需要合并后才能播放。</li>
+</ul>
+</li>
+<li><p><strong>调试和优化</strong>：</p>
+<ul>
+<li>根据测试结果，调整拦截逻辑和下载机制，确保插件在不同网页和视频类型下都能正常工作。</li>
+</ul>
+</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过这次项目，我深刻体会到了 ChatGPT 在开发过程中的巨大帮助。从最初对 Blob 原理的了解，到具体代码的生成和调试，ChatGPT 提供了全面而细致的支持。利用它的强大能力，我不仅加深了对 Web 技术的理解，更成功地实现了一个实用的 Chrome 插件。</p>
+<p>在未来的项目中，我将继续探索如何更高效地利用 AI 工具，提升开发效率和代码质量。同时，也期待能有更多这样的工具，助力开发者们解决各种技术难题。</p>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>通过本文的分享，从初步了解 Blob 原理，到借助 ChatGPT 实现 Chrome 插件的开发，整个过程展示了 AI 工具在开发中的巨大潜力。ChatGPT 不仅帮助我快速掌握了相关技术，还提供了实用的代码示例，加速了项目进展。</p>
+<p>最后，为什么不是用获取视频流地址的方式下载，而是提取Blob里的缓存呢，存在几个原因：</p>
+<ol>
+<li>获取视频流地址需要对每个不同的网站进行分析，而提取Blob里的缓存则可以统一处理。</li>
+<li>有些网站可能会对视频流中的二进制流进行加密，导致直接下载到的视频无法播放，而提取缓存则是解密后的视频。</li>
+<li>访问视频流地址下载会产生额外的http请求，而提取缓存则是在本地进行操作，对于服务端而言没有任何感知，减少因为下载视频被block的风险。</li>
+</ol>
+<p>当然，提取缓存的方式也有缺点，就是只能等待浏览器缓存完成，缓存了多少，下载就有多少，无法做到按需下载。</p>
+<p>未来，随着 AI 技术的不断进步，相信开发者们将在更多领域中受益。希望本文能为大家提供一些有价值的参考，激发更多创新的灵感。</p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/Blob">MDN Web Docs - Blob</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.chrome.com/docs/extensions/mv3/manifest/">Chrome 开发者文档 - Manifest File Format</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/MediaSource">MediaSource API</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/URL/createObjectURL">URL.createObjectURL</a></li>
+</ul>
+<h1 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h1><p>技术的发展为我们带来了无尽的可能，而 ChatGPT 作为强大的 AI 助手，更是成为开发者不可或缺的伙伴。希望通过本文，您能更好地理解 Blob 的工作原理，并掌握利用 ChatGPT 高效开发 Chrome 插件的方法。祝您在技术探索的道路上不断前行，收获更多成果！</p>
+<h1 id="License"><a href="#License" class="headerlink" title="License"></a>License</h1><p>本文遵循 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh">CC BY-SA 4.0</a>。</p>
+<h1 id="致谢"><a href="#致谢" class="headerlink" title="致谢"></a>致谢</h1><p>感谢 ChatGPT 在整个开发过程中的大力支持和帮助。同时，感谢所有为 Web 开发和 Chrome 插件生态做出贡献的开发者们。</p>
+<h1 id="问答"><a href="#问答" class="headerlink" title="问答"></a>问答</h1><p><strong>问</strong>：如何确保插件的兼容性？</p>
+<p><strong>答</strong>：在开发插件时，应考虑不同浏览器版本和操作系统的兼容性。通过在多个环境中进行测试，并参考官方文档，确保插件在主流浏览器和设备上都能正常工作。</p>
+<p><strong>问</strong>：如何提高视频下载的效率？</p>
+<p><strong>答</strong>：可以优化数据处理逻辑，减少内存占用，并利用异步操作提升下载速度。此外，合理管理 Blob URL 的生命周期，避免不必要的资源占用，也有助于提高整体效率。！</p>
+<h1 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h1><p>#Web开发 #Chrome插件 #Blob #ChatGPT #前端技术 #视频处理</p>
+<h1 id="版权声明"><a href="#版权声明" class="headerlink" title="版权声明"></a>版权声明</h1><p>本文原创，转载请注明出处。</p>
+<h1 id="免责声明"><a href="#免责声明" class="headerlink" title="免责声明"></a>免责声明</h1><p>本文所提供的信息仅供参考，具体实现请根据实际需求进行调整。作者不对因使用本文内容而产生的任何损失负责。</p>
+<hr>
+<p>以上就是使用 ChatGPT 从初步了解 Blob 原理到最终开发出一个功能完整的 Chrome 插件的全过程。希望本文能够帮助到正在进行类似项目的开发者，共同推动 Web 技术的发展！</p>
+<p>最后，本文也是使用cursor中的ChatGPT自动生成。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/01/02/download-extension/" data-id="cm5ex46bn0000wcu19s7s40qr" data-title="使用 ChatGPT 从深度理解 Blob 原理到开发 Chrome 插件的全流程" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Chrome%E6%8F%92%E4%BB%B6/" rel="tag">Chrome插件</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Web%E5%BC%80%E5%8F%91/" rel="tag">Web开发</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF/" rel="tag">前端技术</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Chrome%E6%8F%92%E4%BB%B6/" rel="tag">Chrome插件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Web%E5%BC%80%E5%8F%91/" rel="tag">Web开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF/" rel="tag">前端技术</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Chrome%E6%8F%92%E4%BB%B6/" style="font-size: 10px;">Chrome插件</a> <a href="/tags/Web%E5%BC%80%E5%8F%91/" style="font-size: 10px;">Web开发</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF/" style="font-size: 10px;">前端技术</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/01/">January 2025</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2025/01/02/download-extension/">使用 ChatGPT 从深度理解 Blob 原理到开发 Chrome 插件的全流程</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
