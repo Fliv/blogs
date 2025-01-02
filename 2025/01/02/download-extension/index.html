@@ -1,11 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  
-  
-  <title>使用 ChatGPT 从深度理解 Blob 原理到开发 Chrome 插件的全流程 | Fliv&#39;s blog</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/blogs/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/blogs/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/blogs/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/blogs/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/blogs/css/main.css">
+
+
+<link rel="stylesheet" href="/blogs/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"fliv.github.io","root":"/blogs/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
   <meta name="description" content="在现代 web 开发中，Blob（Binary Large Object） 是一个重要的概念，广泛应用于处理二进制数据，如图像、视频等。本文将分享我如何利用 ChatGPT，从初步了解 Blob 的原理，到最终生成一个用于下载视频的 Chrome 插件的完整过程。希望能为正在进行类似项目的开发者提供一些参考和启发。 目录 引言 初探 Blob API 利用 ChatGPT 深入理解 Blob 从">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用 ChatGPT 从深度理解 Blob 原理到开发 Chrome 插件的全流程">
@@ -14,105 +28,188 @@
 <meta property="og:description" content="在现代 web 开发中，Blob（Binary Large Object） 是一个重要的概念，广泛应用于处理二进制数据，如图像、视频等。本文将分享我如何利用 ChatGPT，从初步了解 Blob 的原理，到最终生成一个用于下载视频的 Chrome 插件的完整过程。希望能为正在进行类似项目的开发者提供一些参考和启发。 目录 引言 初探 Blob API 利用 ChatGPT 深入理解 Blob 从">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2025-01-02T05:50:24.000Z">
-<meta property="article:modified_time" content="2025-01-02T06:42:15.407Z">
+<meta property="article:modified_time" content="2025-01-02T07:27:06.551Z">
 <meta property="article:author" content="Fliv">
 <meta property="article:tag" content="Web开发">
 <meta property="article:tag" content="Chrome插件">
 <meta property="article:tag" content="前端技术">
 <meta property="article:tag" content="javascript">
 <meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/blogs/atom.xml" title="Fliv's blog" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/blogs/favicon.png">
-  
-  
-  
-<link rel="stylesheet" href="/blogs/css/style.css">
 
-  
-    
-<link rel="stylesheet" href="/blogs/fancybox/jquery.fancybox.min.css">
+<link rel="canonical" href="https://fliv.github.io/blogs/2025/01/02/download-extension/">
 
-  
-  
-<meta name="generator" content="Hexo 7.3.0"></head>
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/blogs/" id="logo">Fliv&#39;s blog</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
-        
-          <a class="main-nav-link" href="/blogs/">Home</a>
-        
-          <a class="main-nav-link" href="/blogs/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-        
-          <a class="nav-icon" href="/blogs/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
-        
-        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://fliv.github.io/blogs"></form>
-      </div>
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>使用 ChatGPT 从深度理解 Blob 原理到开发 Chrome 插件的全流程 | Fliv's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
-</header>
 
-      <div class="outer">
-        <section id="main"><article id="post-download-extension" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/blogs/2025/01/02/download-extension/" class="article-date">
-  <time class="dt-published" datetime="2025-01-02T05:50:24.000Z" itemprop="datePublished">2025-01-02</time>
-</a>
-    
+  <div class="site-meta">
+
+    <a href="/blogs/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Fliv's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
   </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="p-name article-title" itemprop="headline name">
-      使用 ChatGPT 从深度理解 Blob 原理到开发 Chrome 插件的全流程
-    </h1>
-  
 
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/blogs/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/blogs/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://fliv.github.io/blogs/2025/01/02/download-extension/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blogs/images/avatar.gif">
+      <meta itemprop="name" content="Fliv">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fliv's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用 ChatGPT 从深度理解 Blob 原理到开发 Chrome 插件的全流程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2025-01-02 13:50:24 / Modified: 15:27:06" itemprop="dateCreated datePublished" datetime="2025-01-02T13:50:24+08:00">2025-01-02</time>
+            </span>
+
+          
+
+        </div>
       </header>
+
     
-    <div class="e-content article-entry" itemprop="articleBody">
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
         <p>在现代 web 开发中，<strong>Blob（Binary Large Object）</strong> 是一个重要的概念，广泛应用于处理二进制数据，如图像、视频等。本文将分享我如何利用 ChatGPT，从初步了解 Blob 的原理，到最终生成一个用于下载视频的 Chrome 插件的完整过程。希望能为正在进行类似项目的开发者提供一些参考和启发。</p>
 <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ol>
 <li><a href="#%E5%BC%95%E8%A8%80">引言</a></li>
 <li><a href="#%E5%88%9D%E6%8E%A2-Blob-API">初探 Blob API</a></li>
-<li><a href="#%E5%88%A9%E7%94%A8-chatgpt-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3-blob">利用 ChatGPT 深入理解 Blob</a></li>
-<li><a href="#%E4%BB%8E-blob-%E5%88%B0-chrome-%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91">从 Blob 到 Chrome 插件开发</a></li>
-<li><a href="#%E5%AE%9E%E7%8E%B0-chrome-%E6%8F%92%E4%BB%B6">实现 Chrome 插件</a><ul>
+<li><a href="#%E5%88%A9%E7%94%A8-ChatGPT-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3-Blob">利用 ChatGPT 深入理解 Blob</a></li>
+<li><a href="#%E4%BB%8E-Blob-%E5%88%B0-Chrome-%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91">从 Blob 到 Chrome 插件开发</a></li>
+<li><a href="#%E5%AE%9E%E7%8E%B0-Chrome-%E6%8F%92%E4%BB%B6">实现 Chrome 插件</a><ul>
 <li><a href="#%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90">需求分析</a></li>
 <li><a href="#%E7%BC%96%E5%86%99%E5%86%85%E5%AE%B9%E8%84%9A%E6%9C%AC">编写内容脚本</a></li>
-<li><a href="#%E4%BF%AE%E6%94%B9-blob-%E7%9B%B8%E5%85%B3%E6%96%B9%E6%B3%95">修改 Blob 相关方法</a></li>
-<li><a href="#%E7%AE%A1%E7%90%86%E8%A7%86%E9%A2%91%E6%95%B0%E6%8D%AE">管理视频数据</a></li>
-<li><a href="#%E9%85%8D%E7%BD%AE-manifestjson">配置 <code>manifest.json</code></a></li>
+<li><a href="#%E4%BF%AE%E6%94%B9-Blob-%E7%9B%B8%E5%85%B3%E6%96%B9%E6%B3%95">修改 Blob 相关方法</a></li>
+<li><a href="#%E8%8E%B7%E5%8F%96%E8%A7%86%E9%A2%91%E7%BC%93%E5%AD%98%E6%95%B0%E6%8D%AE">获取视频缓存数据</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AE-manifest-json">配置 <code>manifest.json</code></a></li>
 <li><a href="#%E6%B5%8B%E8%AF%95%E6%8F%92%E4%BB%B6">测试插件</a></li>
 </ul>
 </li>
 <li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
+<li><a href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99">参考资料</a></li>
+<li><a href="#License">License</a></li>
 </ol>
 <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>故事要从一个朋友问我的问题说起，买的网课要到期了来不及看完，手机录屏录不了有没有什么办法可以把视频都录下来。我说，有网页版吗，打开QQ录屏就行了，试了一下确实可以，It works! 不过，对于专业人士来说，不够优雅，于是我打算让chatgpt老师帮我解决这个问题，从询问原理开始，最终达成了用chatgpt写出了一个自动下载视频的Chrome插件。</p>
 <h2 id="初探-Blob-API"><a href="#初探-Blob-API" class="headerlink" title="初探 Blob API"></a>初探 Blob API</h2><p><strong>Blob</strong>（Binary Large Object）是用于存储二进制数据的对象，常用于处理文件数据、图像、视频等。在浏览器中，Blob 常与 <strong>URL.createObjectURL</strong> 方法配合使用，将二进制数据转换为 URL，从而在页面上展示或下载。</p>
@@ -197,9 +294,7 @@
 </ul>
 </li>
 </ol>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过这次项目，我深刻体会到了 ChatGPT 在开发过程中的巨大帮助。从最初对 Blob 原理的了解，到具体代码的生成和调试，ChatGPT 提供了全面而细致的支持。利用它的强大能力，我不仅加深了对 Web 技术的理解，更成功地实现了一个实用的 Chrome 插件。</p>
-<p>在未来的项目中，我将继续探索如何更高效地利用 AI 工具，提升开发效率和代码质量。同时，也期待能有更多这样的工具，助力开发者们解决各种技术难题。</p>
-<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>通过本文的分享，从初步了解 Blob 原理，到借助 ChatGPT 实现 Chrome 插件的开发，整个过程展示了 AI 工具在开发中的巨大潜力。ChatGPT 不仅帮助我快速掌握了相关技术，还提供了实用的代码示例，加速了项目进展。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过本文的分享，从初步了解 Blob 原理，到借助 ChatGPT 实现 Chrome 插件的开发，整个过程展示了 AI 工具在开发中的巨大潜力。ChatGPT 不仅帮助我快速掌握了相关技术，还提供了实用的代码示例，加速了项目进展。</p>
 <p>最后，为什么不是用获取视频流地址的方式下载，而是提取Blob里的缓存呢，存在几个原因：</p>
 <ol>
 <li>获取视频流地址需要对每个不同的网站进行分析，而提取Blob里的缓存则可以统一处理。</li>
@@ -208,135 +303,197 @@
 </ol>
 <p>当然，提取缓存的方式也有缺点，就是只能等待浏览器缓存完成，缓存了多少，下载就有多少，无法做到按需下载。</p>
 <p>未来，随着 AI 技术的不断进步，相信开发者们将在更多领域中受益。希望本文能为大家提供一些有价值的参考，激发更多创新的灵感。</p>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
 <li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/Blob">MDN Web Docs - Blob</a></li>
 <li><a target="_blank" rel="noopener" href="https://developer.chrome.com/docs/extensions/mv3/manifest/">Chrome 开发者文档 - Manifest File Format</a></li>
 <li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/MediaSource">MediaSource API</a></li>
 <li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/URL/createObjectURL">URL.createObjectURL</a></li>
 </ul>
-<h1 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h1><p>技术的发展为我们带来了无尽的可能，而 ChatGPT 作为强大的 AI 助手，更是成为开发者不可或缺的伙伴。希望通过本文，您能更好地理解 Blob 的工作原理，并掌握利用 ChatGPT 高效开发 Chrome 插件的方法。祝您在技术探索的道路上不断前行，收获更多成果！</p>
-<h1 id="License"><a href="#License" class="headerlink" title="License"></a>License</h1><p>本文遵循 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh">CC BY-SA 4.0</a>。</p>
-<h1 id="致谢"><a href="#致谢" class="headerlink" title="致谢"></a>致谢</h1><p>感谢 ChatGPT 在整个开发过程中的大力支持和帮助。同时，感谢所有为 Web 开发和 Chrome 插件生态做出贡献的开发者们。</p>
-<h1 id="问答"><a href="#问答" class="headerlink" title="问答"></a>问答</h1><p><strong>问</strong>：如何确保插件的兼容性？</p>
-<p><strong>答</strong>：在开发插件时，应考虑不同浏览器版本和操作系统的兼容性。通过在多个环境中进行测试，并参考官方文档，确保插件在主流浏览器和设备上都能正常工作。</p>
-<p><strong>问</strong>：如何提高视频下载的效率？</p>
-<p><strong>答</strong>：可以优化数据处理逻辑，减少内存占用，并利用异步操作提升下载速度。此外，合理管理 Blob URL 的生命周期，避免不必要的资源占用，也有助于提高整体效率。！</p>
-<h1 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h1><p>#Web开发 #Chrome插件 #Blob #ChatGPT #前端技术 #视频处理</p>
-<h1 id="版权声明"><a href="#版权声明" class="headerlink" title="版权声明"></a>版权声明</h1><p>本文原创，转载请注明出处。</p>
-<h1 id="免责声明"><a href="#免责声明" class="headerlink" title="免责声明"></a>免责声明</h1><p>本文所提供的信息仅供参考，具体实现请根据实际需求进行调整。作者不对因使用本文内容而产生的任何损失负责。</p>
+<h2 id="License"><a href="#License" class="headerlink" title="License"></a>License</h2><p>本文遵循 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh">CC BY-SA 4.0</a>。转载请注明出处。</p>
 <hr>
 <p>以上就是使用 ChatGPT 从初步了解 Blob 原理到最终开发出一个功能完整的 Chrome 插件的全过程。希望本文能够帮助到正在进行类似项目的开发者，共同推动 Web 技术的发展！</p>
 <p>最后，本文也是使用cursor中的ChatGPT自动生成。</p>
 
-      
     </div>
-    <footer class="article-footer">
-      <a data-url="https://fliv.github.io/blogs/2025/01/02/download-extension/" data-id="cm5eyljnz0000oku1dvay4m11" data-title="使用 ChatGPT 从深度理解 Blob 原理到开发 Chrome 插件的全流程" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blogs/tags/Chrome%E6%8F%92%E4%BB%B6/" rel="tag">Chrome插件</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blogs/tags/Web%E5%BC%80%E5%8F%91/" rel="tag">Web开发</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blogs/tags/javascript/" rel="tag">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blogs/tags/%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF/" rel="tag">前端技术</a></li></ul>
 
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blogs/tags/Web%E5%BC%80%E5%8F%91/" rel="tag"># Web开发</a>
+              <a href="/blogs/tags/Chrome%E6%8F%92%E4%BB%B6/" rel="tag"># Chrome插件</a>
+              <a href="/blogs/tags/%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF/" rel="tag"># 前端技术</a>
+              <a href="/blogs/tags/javascript/" rel="tag"># javascript</a>
+          </div>
+
+        
+
+
+        
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95"><span class="nav-number">1.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E8%A8%80"><span class="nav-number">2.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9D%E6%8E%A2-Blob-API"><span class="nav-number">3.</span> <span class="nav-text">初探 Blob API</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A9%E7%94%A8-ChatGPT-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3-Blob"><span class="nav-number">4.</span> <span class="nav-text">利用 ChatGPT 深入理解 Blob</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%A2%E9%97%AE-Blob-%E5%8E%9F%E7%90%86"><span class="nav-number">4.1.</span> <span class="nav-text">询问 Blob 原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B"><span class="nav-number">4.2.</span> <span class="nav-text">生成代码示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8E-Blob-%E5%88%B0-Chrome-%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91"><span class="nav-number">5.</span> <span class="nav-text">从 Blob 到 Chrome 插件开发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0-Chrome-%E6%8F%92%E4%BB%B6"><span class="nav-number">6.</span> <span class="nav-text">实现 Chrome 插件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90"><span class="nav-number">6.1.</span> <span class="nav-text">需求分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E5%86%99%E5%86%85%E5%AE%B9%E8%84%9A%E6%9C%AC"><span class="nav-number">6.2.</span> <span class="nav-text">编写内容脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9-Blob-%E7%9B%B8%E5%85%B3%E6%96%B9%E6%B3%95"><span class="nav-number">6.3.</span> <span class="nav-text">修改 Blob 相关方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E8%A7%86%E9%A2%91%E7%BC%93%E5%AD%98%E6%95%B0%E6%8D%AE"><span class="nav-number">6.4.</span> <span class="nav-text">获取视频缓存数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-manifest-json"><span class="nav-number">6.5.</span> <span class="nav-text">配置 manifest.json</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E6%8F%92%E4%BB%B6"><span class="nav-number">6.6.</span> <span class="nav-text">测试插件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">8.</span> <span class="nav-text">参考资料</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#License"><span class="nav-number">9.</span> <span class="nav-text">License</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Fliv</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/blogs/archives/">
+        
+          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fliv</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
     </footer>
   </div>
-  
-    
-  
-</article>
-
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
 
   
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/blogs/tags/Chrome%E6%8F%92%E4%BB%B6/" rel="tag">Chrome插件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blogs/tags/Web%E5%BC%80%E5%8F%91/" rel="tag">Web开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blogs/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blogs/tags/%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF/" rel="tag">前端技术</a></li></ul>
-    </div>
-  </div>
+  <script src="/blogs/lib/anime.min.js"></script>
+  <script src="/blogs/lib/velocity/velocity.min.js"></script>
+  <script src="/blogs/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/blogs/js/utils.js"></script>
+
+<script src="/blogs/js/motion.js"></script>
 
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/blogs/tags/Chrome%E6%8F%92%E4%BB%B6/" style="font-size: 10px;">Chrome插件</a> <a href="/blogs/tags/Web%E5%BC%80%E5%8F%91/" style="font-size: 10px;">Web开发</a> <a href="/blogs/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/blogs/tags/%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF/" style="font-size: 10px;">前端技术</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/blogs/archives/2025/01/">January 2025</a></li></ul>
-    </div>
-  </div>
+<script src="/blogs/js/schemes/muse.js"></script>
 
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/blogs/2025/01/02/download-extension/">使用 ChatGPT 从深度理解 Blob 原理到开发 Chrome 插件的全流程</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
+<script src="/blogs/js/next-boot.js"></script>
 
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-      &copy; 2025 Fliv<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/blogs/" class="mobile-nav-link">Home</a>
-  
-    <a href="/blogs/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-
-<script src="/blogs/js/jquery-3.6.4.min.js"></script>
 
 
 
   
-<script src="/blogs/fancybox/jquery.fancybox.min.js"></script>
-
-
-
-
-<script src="/blogs/js/script.js"></script>
 
 
 
 
 
-  </div>
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
 </body>
 </html>
