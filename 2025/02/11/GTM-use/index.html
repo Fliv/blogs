@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/blogs/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/blogs/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/blogs/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/blogs/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/blogs/css/main.css">
+
+
+<link rel="stylesheet" href="/blogs/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"fliv.github.io","root":"/blogs/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="今天在thehackernews上看到一篇讲黑客利用Google Tag Manager外挂恶意js脚本的文章（https:&#x2F;&#x2F;thehackernews.com&#x2F;2025&#x2F;02&#x2F;hackers-exploit-google-tag-manager-to.html），然后顺带搜了一下，发现利用GTM加载js的攻击早就有了（https:&#x2F;&#x2F;www.recordedfuture.com&#x2F;researc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何使用GTM加载自定义JavaScript脚本">
+<meta property="og:url" content="https://fliv.github.io/blogs/2025/02/11/GTM-use/index.html">
+<meta property="og:site_name" content="Fliv&#39;s blog">
+<meta property="og:description" content="今天在thehackernews上看到一篇讲黑客利用Google Tag Manager外挂恶意js脚本的文章（https:&#x2F;&#x2F;thehackernews.com&#x2F;2025&#x2F;02&#x2F;hackers-exploit-google-tag-manager-to.html），然后顺带搜了一下，发现利用GTM加载js的攻击早就有了（https:&#x2F;&#x2F;www.recordedfuture.com&#x2F;researc">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://fliv.github.io/blogs/2025/02/11/GTM-use/Pasted%20image%2020250211162440.png">
+<meta property="og:image" content="https://fliv.github.io/blogs/2025/02/11/GTM-use/Pasted%20image%2020250211162609.png">
+<meta property="og:image" content="https://fliv.github.io/blogs/2025/02/11/GTM-use/Pasted%20image%2020250211162744.png">
+<meta property="og:image" content="https://fliv.github.io/blogs/2025/02/11/GTM-use/Pasted%20image%2020250211162902.png">
+<meta property="og:image" content="https://fliv.github.io/blogs/2025/02/11/GTM-use/Pasted%20image%2020250211163113.png">
+<meta property="og:image" content="https://fliv.github.io/blogs/2025/02/11/GTM-use/Pasted%20image%2020250211163348.png">
+<meta property="og:image" content="https://fliv.github.io/blogs/2025/02/11/GTM-use/Pasted%20image%2020250211163553.png">
+<meta property="article:published_time" content="2025-02-11T09:03:24.000Z">
+<meta property="article:modified_time" content="2025-02-11T10:04:31.470Z">
+<meta property="article:author" content="Fliv">
+<meta property="article:tag" content="javascript">
+<meta property="article:tag" content="GTM">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://fliv.github.io/blogs/2025/02/11/GTM-use/Pasted%20image%2020250211162440.png">
+
+<link rel="canonical" href="https://fliv.github.io/blogs/2025/02/11/GTM-use/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>如何使用GTM加载自定义JavaScript脚本 | Fliv's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blogs/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Fliv's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/blogs/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/blogs/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://fliv.github.io/blogs/2025/02/11/GTM-use/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blogs/images/avatar.gif">
+      <meta itemprop="name" content="Fliv">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fliv's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          如何使用GTM加载自定义JavaScript脚本
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2025-02-11 17:03:24 / Modified: 18:04:31" itemprop="dateCreated datePublished" datetime="2025-02-11T17:03:24+08:00">2025-02-11</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>今天在thehackernews上看到一篇讲黑客利用Google Tag Manager外挂恶意js脚本的文章（<a target="_blank" rel="noopener" href="https://thehackernews.com/2025/02/hackers-exploit-google-tag-manager-to.html">https://thehackernews.com/2025/02/hackers-exploit-google-tag-manager-to.html</a>），然后顺带搜了一下，发现利用GTM加载js的攻击早就有了（<a target="_blank" rel="noopener" href="https://www.recordedfuture.com/research/threat-actors-continue-to-abuse-google-tag-manager-for-payment-card-e-skimming">https://www.recordedfuture.com/research/threat-actors-continue-to-abuse-google-tag-manager-for-payment-card-e-skimming</a>），这篇里面甚至列了很多样本。<br>那么GTM怎样来使用呢，下面就来简单尝试一下利用GTM来执行自定义的js脚本。</p>
+<h1 id="GTM创建demo"><a href="#GTM创建demo" class="headerlink" title="GTM创建demo"></a>GTM创建demo</h1><ol>
+<li>首先来到<a target="_blank" rel="noopener" href="https://tagmanager.google.com/#/home">GTM控制台</a>，在account创建账号，然后创建容器。</li>
+<li>进入容器之后添加一个新的tag，选择custom html<br><img src="/blogs/2025/02/11/GTM-use/Pasted%20image%2020250211162440.png" alt="Pasted image 20250211162440.png"><br><img src="/blogs/2025/02/11/GTM-use/Pasted%20image%2020250211162609.png" alt="Pasted image 20250211162609.png"></li>
+<li>添加自定义的js代码，使用script标签<img src="/blogs/2025/02/11/GTM-use/Pasted%20image%2020250211162744.png" alt="Pasted image 20250211162744.png"></li>
+<li>添加好之后就能在tags列中看见了<img src="/blogs/2025/02/11/GTM-use/Pasted%20image%2020250211162902.png" alt="Pasted image 20250211162902.png"></li>
+<li>点右上角的submit发布，再点开旁边的tag id就能看到给页面添加GTM的代码了<img src="/blogs/2025/02/11/GTM-use/Pasted%20image%2020250211163113.png" alt="Pasted image 20250211163113.png"></li>
+<li>把tag id拼接到<a target="_blank" rel="noopener" href="https://www.googletagmanager.com/gtm.js?id=">https://www.googletagmanager.com/gtm.js?id=</a> 后面在浏览器中打开，就能看到完整的js，而我们添加进去的自定义js就在vtp_html属性中<img src="/blogs/2025/02/11/GTM-use/Pasted%20image%2020250211163348.png" alt="Pasted image 20250211163348.png"></li>
+<li>把第5步中的代码添加到网站的html页面中，就能看到自定义js代码被执行了<img src="/blogs/2025/02/11/GTM-use/Pasted%20image%2020250211163553.png" alt="Pasted image 20250211163553.png"></li>
+</ol>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>其实就一点，相较于从别的域名加载js，使用类似GTM这种可信域名加载恶意js更容易绕过安全检测（可能一看是Google的域名就跳过了），同时也提醒我们不能简单的按照域名白名单放行安全检查。<br>最后，用Gemini的deep research扒了一下相关资料，链接放在下面<br><a target="_blank" rel="noopener" href="https://gemini.google.com/share/a0b63a35f98a">https://gemini.google.com/share/a0b63a35f98a</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blogs/tags/javascript/" rel="tag"># javascript</a>
+              <a href="/blogs/tags/GTM/" rel="tag"># GTM</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/blogs/2025/01/02/download-extension/" rel="prev" title="使用 ChatGPT 从深度理解 Blob 原理到开发 Chrome 插件的全流程">
+      <i class="fa fa-chevron-left"></i> 使用 ChatGPT 从深度理解 Blob 原理到开发 Chrome 插件的全流程
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#GTM%E5%88%9B%E5%BB%BAdemo"><span class="nav-number">1.</span> <span class="nav-text">GTM创建demo</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">2.</span> <span class="nav-text">总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Fliv</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/blogs/archives/">
+        
+          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fliv</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/blogs/lib/anime.min.js"></script>
+  <script src="/blogs/lib/velocity/velocity.min.js"></script>
+  <script src="/blogs/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/blogs/js/utils.js"></script>
+
+<script src="/blogs/js/motion.js"></script>
+
+
+<script src="/blogs/js/schemes/muse.js"></script>
+
+
+<script src="/blogs/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -15,16 +15,6 @@
 
 <link rel="stylesheet" href="/blogs/lib/font-awesome/css/all.min.css">
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-D989P2RZ3L"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-D989P2RZ3L');
-</script>
-
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
     var CONFIG = {"hostname":"fliv.github.io","root":"/blogs/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
@@ -151,6 +141,75 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://fliv.github.io/blogs/2025/02/11/GTM-use/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blogs/images/avatar.gif">
+      <meta itemprop="name" content="Fliv">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fliv's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/blogs/2025/02/11/GTM-use/" class="post-title-link" itemprop="url">如何使用GTM加载自定义JavaScript脚本</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2025-02-11 17:03:24 / Modified: 18:04:31" itemprop="dateCreated datePublished" datetime="2025-02-11T17:03:24+08:00">2025-02-11</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>今天在thehackernews上看到一篇讲黑客利用Google Tag Manager外挂恶意js脚本的文章（<a target="_blank" rel="noopener" href="https://thehackernews.com/2025/02/hackers-exploit-google-tag-manager-to.html">https://thehackernews.com/2025/02/hackers-exploit-google-tag-manager-to.html</a>），然后顺带搜了一下，发现利用GTM加载js的攻击早就有了（<a target="_blank" rel="noopener" href="https://www.recordedfuture.com/research/threat-actors-continue-to-abuse-google-tag-manager-for-payment-card-e-skimming">https://www.recordedfuture.com/research/threat-actors-continue-to-abuse-google-tag-manager-for-payment-card-e-skimming</a>），这篇里面甚至列了很多样本。<br>那么GTM怎样来使用呢，下面就来简单尝试一下利用GTM来执行自定义的js脚本。</p>
+<h1 id="GTM创建demo"><a href="#GTM创建demo" class="headerlink" title="GTM创建demo"></a>GTM创建demo</h1><ol>
+<li>首先来到<a target="_blank" rel="noopener" href="https://tagmanager.google.com/#/home">GTM控制台</a>，在account创建账号，然后创建容器。</li>
+<li>进入容器之后添加一个新的tag，选择custom html<br><img src="/blogs/2025/02/11/GTM-use/Pasted%20image%2020250211162440.png" alt="Pasted image 20250211162440.png"><br><img src="/blogs/2025/02/11/GTM-use/Pasted%20image%2020250211162609.png" alt="Pasted image 20250211162609.png"></li>
+<li>添加自定义的js代码，使用script标签<img src="/blogs/2025/02/11/GTM-use/Pasted%20image%2020250211162744.png" alt="Pasted image 20250211162744.png"></li>
+<li>添加好之后就能在tags列中看见了<img src="/blogs/2025/02/11/GTM-use/Pasted%20image%2020250211162902.png" alt="Pasted image 20250211162902.png"></li>
+<li>点右上角的submit发布，再点开旁边的tag id就能看到给页面添加GTM的代码了<img src="/blogs/2025/02/11/GTM-use/Pasted%20image%2020250211163113.png" alt="Pasted image 20250211163113.png"></li>
+<li>把tag id拼接到<a target="_blank" rel="noopener" href="https://www.googletagmanager.com/gtm.js?id=">https://www.googletagmanager.com/gtm.js?id=</a> 后面在浏览器中打开，就能看到完整的js，而我们添加进去的自定义js就在vtp_html属性中<img src="/blogs/2025/02/11/GTM-use/Pasted%20image%2020250211163348.png" alt="Pasted image 20250211163348.png"></li>
+<li>把第5步中的代码添加到网站的html页面中，就能看到自定义js代码被执行了<img src="/blogs/2025/02/11/GTM-use/Pasted%20image%2020250211163553.png" alt="Pasted image 20250211163553.png"></li>
+</ol>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>其实就一点，相较于从别的域名加载js，使用类似GTM这种可信域名加载恶意js更容易绕过安全检测（可能一看是Google的域名就跳过了），同时也提醒我们不能简单的按照域名白名单放行安全检查。<br>最后，用Gemini的deep research扒了一下相关资料，链接放在下面<br><a target="_blank" rel="noopener" href="https://gemini.google.com/share/a0b63a35f98a">https://gemini.google.com/share/a0b63a35f98a</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -396,12 +455,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/blogs/archives/">
         
-          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-count">2</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
